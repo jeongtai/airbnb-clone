@@ -90,3 +90,10 @@ class Photo(core_models.TimeStampedModel):
 
     def __str__(self):
         return self.caption
+
+    def total_ration(self):
+        all_reviews = self.reviews.all()
+        all_ratings = []
+        for review in all_reviews:
+            all_ratings.append(review.rating_average())
+        return 0

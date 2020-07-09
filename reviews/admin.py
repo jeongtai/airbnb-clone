@@ -7,5 +7,6 @@ class RevieAdmin(admin.ModelAdmin):
 
     """ Review Admin Definition """
 
-    pass
+    # 리뷰 평점 구하는 메소드-보류
+    list_display = ("__str__", "rating_average")
 
