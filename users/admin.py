@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from . import models
+from rooms import models as rooms_models
 
 # Register your models here.
 
@@ -8,10 +9,17 @@ from . import models
 # 위랑 아래랑 같은 뜻임. admin 패널에서 이 user를 볼 거다.
 
 
+class RoomInline(admin.TabularInline):
+
+    model = rooms_models.Room
+
+
 @admin.register(models.User)
 class CustomUserAdmin(UserAdmin):
 
     """ Custom User Admin """
+
+    inlines = (RoomInline,)
 
     fieldsets = UserAdmin.fieldsets + (
         (
@@ -44,3 +52,4 @@ class CustomUserAdmin(UserAdmin):
         "is_staff",
         "is_superuser",
     )
+

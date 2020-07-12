@@ -1,7 +1,16 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from core import models as core_models
+from rooms import models as rooms_models
 
-# Create your models here.
+
+# class Room(core_models.TimeStampedModel):
+
+#     """Room Model Definition """
+
+#     room = models.ForeignKey("Room", related_name="rooms", on_delete=models.CASCADE)
+
+
 class User(AbstractUser):
 
     """ Custom User Model """
