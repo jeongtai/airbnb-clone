@@ -42,17 +42,32 @@ class Command(BaseCommand):
         created_photos = seeder.execute()
         # flatten을 통해 2차원 배열의 값에서 1차원으로 정리
         created_clean = flatten(list(created_photos.values()))
+        amenities = room_models.Amenity.objects.all()
+        facilities = room_models.Facility.objects.all()
+        rules = room_models.HouseRule.objects.all()
         # 생성된 모든 룸을 루프
         for pk in created_clean:
             # pk로 각 room을 찾음 변수 room이 instance을 제공
             room = room_models.Room.objects.get(pk=pk)
             # 3부터 10-17까지 사진들을 만듦
-            for i in range(3, random.randint(10, 17)):
+            for i in range(3, random.randint(10, 30)):
                 room_models.Photo.objects.create(
                     caption=seeder.faker.sentence(),
                     room=room,
-                    # 파일을 제공하는 부분
                     file=f"room_photos/{random.randint(1, 31)}.webp",
                 )
+            for a in amenities:
+                magic_number = random.randint(0, 15)
+                if magic_number % 2 == 0:
+                    room.amenities.add(a)
+            for f in facilities:
+                magic_number = random.randint(0, 15)
+                if magic_number % 2 == 0:
+                    room.facilities.add(f)
+            for r in rules:
+                magic_number = random.randint(0, 15)
+                if magic_number % 2 == 0:
+                    room.house_rules.add(r)
+
         self.stdout.write(self.style.SUCCESS(f"{number} rooms created!"))
 

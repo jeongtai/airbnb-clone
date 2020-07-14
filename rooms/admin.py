@@ -88,7 +88,7 @@ class RoomAdmin(admin.ModelAdmin):
     def count_amenities(self, obj):
         return obj.amenities.count()
 
-    count_amenities.short_description = "컬럼 이름 바꾸기"
+    count_amenities.short_description = "편의시설 개수"
 
     def count_photos(self, obj):
         return obj.photos.count()
