@@ -56,6 +56,8 @@ class Command(BaseCommand):
                     room=room,
                     file=f"room_photos/{random.randint(1, 31)}.webp",
                 )
+            # 다대다 필드에서 모델을 추가하는법
+            # 각 모델을 가져와서 room에 추가 루프
             for a in amenities:
                 magic_number = random.randint(0, 15)
                 if magic_number % 2 == 0:
