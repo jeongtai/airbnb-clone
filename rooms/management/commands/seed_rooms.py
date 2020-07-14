@@ -1,5 +1,6 @@
 import random
 from django.core.management.base import BaseCommand
+from django.contrib.admin.utils import flatten
 from django_seed import Seed
 from rooms import models as room_models
 from users import models as user_models
@@ -38,6 +39,20 @@ class Command(BaseCommand):
                 "baths": lambda x: random.randint(1, 5),
             },
         )
-        seeder.execute()
+        created_photos = seeder.execute()
+        # flatten을 통해 2차원 배열의 값에서 1차원으로 정리
+        created_clean = flatten(list(created_photos.values()))
+        # 생성된 모든 룸을 루프
+        for pk in created_clean:
+            # pk로 각 room을 찾음 변수 room이 instance을 제공
+            room = room_models.Room.objects.get(pk=pk)
+            # 3부터 10-17까지 사진들을 만듦
+            for i in range(3, random.randint(10, 17)):
+                room_models.Photo.objects.create(
+                    caption=seeder.faker.sentence(),
+                    room=room,
+                    # 파일을 제공하는 부분
+                    file=f"room_photos/{random.randint(1, 31)}.webp",
+                )
         self.stdout.write(self.style.SUCCESS(f"{number} rooms created!"))
 
