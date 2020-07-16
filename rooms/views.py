@@ -1,8 +1,19 @@
 from math import ceil
 from django.shortcuts import render
+from django.core.paginator import Paginator
 from . import models
 
 
+def all_rooms(request):
+    page = request.GET.get("page")
+    room_list = models.Room.objects.all()
+    paginator = Paginator(room_list, 10)
+    rooms = paginator.get_page(page)
+    return render(request, "rooms/home.html", {"rooms": rooms})
+
+
+"""
+위와 같은 의미의 함수
 def all_rooms(request):
     page = request.GET.get("page", 1)
     page = int(page or 1)
@@ -14,11 +25,11 @@ def all_rooms(request):
     return render(
         request,
         "rooms/home.html",
-        context={
-            "rooms": all_rooms,
+        {
+            "potato": all_rooms,
             "page": page,
             "page_count": page_count,
-            "page_range": range(1, page_count + 1),
+            "page_range": range(1, page_count),
         },
     )
-
+"""
