@@ -1,9 +1,24 @@
 # from math import ceil
-from django.shortcuts import render, redirect
-from django.core.paginator import Paginator, EmptyPage
+# from django.shortcuts import render, redirect
+# from django.core.paginator import Paginator, EmptyPage
+from django.views.generic import ListView
 from . import models
 
 
+class HomeView(ListView):
+
+    """ HomeView Definition """
+
+    model = models.Room
+    paginate_by = 10
+    paginate_orphans = 5
+    ordering = "created"
+
+
+"""
+함수로 표현한 View -> core.urls.py 에 
+urlpatterns = [path("", room_views.all_rooms, name="home")]
+로 수정
 def all_rooms(request):
     page = request.GET.get("page", 1)
     room_list = models.Room.objects.all()
@@ -14,8 +29,7 @@ def all_rooms(request):
     except EmptyPage:
         rooms = paginator.page(1)
         return redirect("/")
-
-
+"""
 """
 위와 같은 의미의 함수
 def all_rooms(request):
