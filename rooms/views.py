@@ -1,9 +1,10 @@
 # from math import ceil
 # from django.core.paginator import Paginator, EmptyPage
 # from django.shortcuts import render, redirect
-# from django.http import Http404
+from django.http import Http404
 
 # from django.urls import reverse
+from django.shortcuts import render
 from django.utils import timezone
 from django.views.generic import ListView, DetailView
 from . import models
@@ -24,22 +25,6 @@ class HomeView(ListView):
     #     now = timezone.now()
     #     return context
 
-
-class RoomDetail(DetailView):
-
-    """ RoomDetail Definition """
-
-    model = models.Room
-
-
-"""
-def room_detail(request, pk):
-    try:
-        room = models.Room.objects.get(pk=pk)
-        return render(request, "rooms/detail.html", {"room": room})
-    except models.Room.DoesNotExist:
-        raise Http404()
-"""
 
 """
 함수로 표현한 View -> core.urls.py 에 
@@ -77,3 +62,29 @@ def all_rooms(request):
         },
     )
 """
+
+
+class RoomDetail(DetailView):
+
+    """ RoomDetail Definition """
+
+    try:
+        model = models.Room
+    except models.Room.DoesNotExist:
+        raise Http404()
+
+
+"""
+def room_detail(request, pk):
+    try:
+        room = models.Room.objects.get(pk=pk)
+        return render(request, "rooms/detail.html", {"room": room})
+    except models.Room.DoesNotExist:
+        raise Http404()
+"""
+
+
+def search(request):
+    city = request.GET.get("city")
+    str.capitalize(city)
+    return render(request, "rooms/search.html", {"city": city})
