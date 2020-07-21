@@ -1,10 +1,10 @@
 # from math import ceil
 # from django.core.paginator import Paginator, EmptyPage
-# from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 from django.http import Http404
+from django_countries import countries
 
 # from django.urls import reverse
-from django.shortcuts import render
 from django.utils import timezone
 from django.views.generic import ListView, DetailView
 from . import models
@@ -85,6 +85,11 @@ def room_detail(request, pk):
 
 
 def search(request):
-    city = request.GET.get("city")
-    str.capitalize(city)
-    return render(request, "rooms/search.html", {"city": city})
+    city = request.GET.get("city", "Anywhere")
+    city = str.capitalize(city)
+    room_types = models.RoomType.objects.all()
+    return render(
+        request,
+        "rooms/search.html",
+        {"city": city, "countries": countries, "room_types": room_types},
+    )
