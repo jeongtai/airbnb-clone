@@ -103,8 +103,14 @@ class SearchView(View):
 
                 rooms = paginator.get_page(page)
 
+                urlencode = request.GET.urlencode()
+                page_filter = [i for i in urlencode.split("&") if "page=" not in i]
+                url_address = "&".join(page_filter)
+
                 return render(
-                    request, "rooms/search.html", {"form": form, "rooms": rooms}
+                    request,
+                    "rooms/search.html",
+                    {"form": form, "rooms": rooms, "url_address": url_address},
                 )
         else:
             form = forms.SearchForm()
